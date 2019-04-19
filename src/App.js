@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import LoginPage from './components/auth/Login';
 import SpotifyWebPlayback from './spotify/WebPlayback';
 import { checkAuth } from './services/authService';
+import NowPlaying from './components/player/NowPlaying';
 import './App.css';
 
 export default class App extends Component {
@@ -52,11 +53,16 @@ export default class App extends Component {
         <main>
           {!userAccessToken && <LoginPage />}
           {userAccessToken &&
-            <SpotifyWebPlayback {...webPlaybackSdkProps}>
-              { deviceId &&
-                <div> Ready with Device ID: {this.state.deviceId}</div> 
-              }
-            </SpotifyWebPlayback>
+           <SpotifyWebPlayback {...webPlaybackSdkProps}>
+           { deviceId && 
+              <div>Device is ready with ID: {this.state.deviceId}</div>
+           }
+           { playerState &&
+             <Fragment>
+               <NowPlaying playerState={playerState} />
+             </Fragment>
+           }
+          </SpotifyWebPlayback>
           }
         </main>
       </div>
